@@ -18,4 +18,4 @@ simple registration of people with name and email
 
 > - $ git clone
 
-> - 
+> - Renomeie o arquivo app/config/db.options.example.php para: app/config/db.options.php e configure com os dados do DB.
