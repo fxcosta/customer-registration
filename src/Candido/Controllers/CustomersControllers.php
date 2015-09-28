@@ -50,17 +50,13 @@ class CustomersControllers
         });
 
         // update
-        $customersController->put('/api/{id}', function (Request $request,$id) use ($app) {
+        $customersController->put('/api/{id}', function ($id) use ($app) {
 
-            $update = $app['db']->update('persons',
-                ['name' => $app['request']->request->get('name')],
-                ['email'=> $app['request']->request->get('email')],
-                ['id'   => $id]
-            );
+            $data = $app['customersService']->update($id);
 
-            if($update)
+            if($data)
                 return $app->json(['success' => true]);
-            if(!$update)
+            if(!$data)
                 return $app->json(['success' => false]);
         });
 

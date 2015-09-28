@@ -44,7 +44,12 @@ class CustomersService implements ServiceInterface
 
     public function update($id)
     {
-        // TODO: Implement update() method.
+        $this->app['db']->update('persons',
+            ['name' => $this->app['request']->request->get('name'), 'email'=> $this->app['request']->request->get('email')],
+            ['id'   => $id]
+        );
+
+        return true;
     }
 
     public function delete($id)
