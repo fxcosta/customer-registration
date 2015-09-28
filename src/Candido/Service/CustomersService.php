@@ -21,6 +21,8 @@ class CustomersService implements ServiceInterface
         $data = $this->app['db']->fetchAll('SELECT * FROM persons');
 
         return $data;
+
+
     }
 
     public function show($id)
@@ -33,7 +35,11 @@ class CustomersService implements ServiceInterface
 
     public function create()
     {
-        // TODO: Implement create() method.
+        $this->app['db']->insert('persons',
+            ['name' => $this->app['request']->request->get('name'), 'email' => $this->app['request']->request->get('email')]
+        );
+
+        return true;
     }
 
     public function update($id)

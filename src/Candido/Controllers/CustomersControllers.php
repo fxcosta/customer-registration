@@ -41,11 +41,12 @@ class CustomersControllers
         // insert
         $customersController->post('/api/', function () use ($app) {
 
-            $app['db']->insert('persons',
-                ['name' => $app['request']->request->get('name'), 'email' => $app['request']->request->get('email')]
-            );
+            $data = $app['customersService']->create();
 
-            return $app->redirect(('/api/'));
+            if($data)
+                return $app->redirect(('/api/'));
+            return $app->json(['success' => false]);
+
         });
 
         // update
