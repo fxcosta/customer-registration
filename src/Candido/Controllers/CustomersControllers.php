@@ -17,6 +17,14 @@ class CustomersControllers
             return $app->json($data);
         });
 
+        // select customers
+        $customersController->get('/api/{id}', function ($id) use ($app) {
+            $sql = "SELECT * FROM persons WHERE id = ?";
+            $data = $app['db']->fetchAssoc($sql, array((int) $id));
+
+            return $app->json($data);
+        });
+
         return $customersController;
     }
 }
