@@ -2,7 +2,9 @@
 
 namespace Candido\Controllers;
 
+use Candido\Service\CustomersService;
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Request;
 
 class CustomersControllers
 {
@@ -10,19 +12,28 @@ class CustomersControllers
     {
         $customersController = $app['controllers_factory'];
 
+        /**
+         * @var CustomersService
+         * @return CustomersService
+         */
+        $app['customersService'] = function () use ($app) {
+            $customersService = new CustomersService($app);
+            return $customersService;
+        };
+
         // list customers
         $customersController->get('/api/', function () use ($app) {
 
-            $data = $app['db']->fetchAll('SELECT * FROM persons');
+            $data = $app['customersService']->showAll();
 
             return $app->json($data);
+
         });
 
         // select customers
         $customersController->get('/api/{id}', function ($id) use ($app) {
 
-            $sql = "SELECT * FROM persons WHERE id = ?";
-            $data = $app['db']->fetchAssoc($sql, array((int) $id));
+            $data = $app['customersService']->show($id);
 
             return $app->json($data);
         });
@@ -38,24 +49,31 @@ class CustomersControllers
         });
 
         // update
-        $customersController->put('/api/{id}', function ($id) use ($app) {
+        $customersController->put('/api/{id}', function (Request $request,$id) use ($app) {
 
-            $data = $app['db']->update('persons',
+            $update = $app['db']->update('persons',
                 ['name' => $app['request']->request->get('name')],
-                ['email' => $app['request']->request->get('email')],
-                [$id => $app['request']->request->get('id')]
-
+                ['email'=> $app['request']->request->get('email')],
+                ['id'   => $id]
             );
 
-            return $app->redirect(('/api/'));
+            if($update)
+                return $app->json(['success' => true]);
+            if(!$update)
+                return $app->json(['success' => false]);
         });
 
         // delete
         $customersController->delete('/api/{id}', function ($id) use ($app) {
 
-            $app['db']->delete('categories', array(
-                'id' => $app['request']->query->get('id'),
+            $delete = $app['db']->delete('persons', array(
+                'id' => $id,
             ));
+
+            if($delete)
+                return $app->json(['success' => true]);
+            if(!$delete)
+                return $app->json(['success' => false]);
         });
 
         return $customersController;
