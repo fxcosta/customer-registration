@@ -12,7 +12,7 @@ class CustomersControllers
 
         // list customers
         $customersController->get('/api/', function () use ($app) {
-            
+
             $data = $app['db']->fetchAll('SELECT * FROM persons');
 
             return $app->json($data);
@@ -35,6 +35,27 @@ class CustomersControllers
             );
 
             return $app->redirect(('/api/'));
+        });
+
+        // update
+        $customersController->put('/api/{id}', function ($id) use ($app) {
+
+            $data = $app['db']->update('persons',
+                ['name' => $app['request']->request->get('name')],
+                ['email' => $app['request']->request->get('email')],
+                [$id => $app['request']->request->get('id')]
+
+            );
+
+            return $app->redirect(('/api/'));
+        });
+
+        // delete
+        $customersController->delete('/api/{id}', function ($id) use ($app) {
+
+            $app['db']->delete('categories', array(
+                'id' => $app['request']->query->get('id'),
+            ));
         });
 
         return $customersController;
