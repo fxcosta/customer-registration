@@ -54,6 +54,10 @@ class CustomersService implements ServiceInterface
 
     public function delete($id)
     {
-        // TODO: Implement delete() method.
+        $this->app['db']->delete('persons', array(
+            'id' => $id,
+        ));
+
+        return true;
     }
 }

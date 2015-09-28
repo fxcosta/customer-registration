@@ -63,9 +63,7 @@ class CustomersControllers
         // delete
         $customersController->delete('/api/{id}', function ($id) use ($app) {
 
-            $delete = $app['db']->delete('persons', array(
-                'id' => $id,
-            ));
+            $delete = $app['customersService']->delete($id);
 
             if($delete)
                 return $app->json(['success' => true]);
