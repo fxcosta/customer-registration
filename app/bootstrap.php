@@ -23,3 +23,10 @@ use Silex\Application;
 $app = new Application();
 
 $app['debug'] = true;
+
+// REGISTRO DOCTRINE
+$app->register(new \Silex\Provider\DoctrineServiceProvider(), [
+    'db.options' => include_once __DIR__ . '/config/db.options.php'
+]);
+
+return $app;
