@@ -3,7 +3,8 @@
 
     angular.module('customersAppSrv', [])
         .factory('customersService', ['$resource', function($resource) {
-            return $resource();
+            return $resource(
+                '/api/'
+            );
         }])
-
 })();

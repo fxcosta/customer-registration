@@ -10,7 +10,10 @@
 (function() {
     'use strict';
     angular.module('customersAppCtrl', [])
-        .controller('customersCtrl', ['$scope', function ($scope) {
-            console.log($scope);
+        .controller('customersCtrl', ['$scope', 'customersService', function ($scope, customersService) {
+
+            $scope.loadService = function() {
+                $scope.registers = customersService.query();
+            }
         }]);
 })();
