@@ -9,14 +9,12 @@
                     save: {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-                    }
-                },
-                // Corrigir erro update
-                {
+                    },
+
                     update: {
                         method: 'PUT',
                         url: '/index.php/api/:id',
-                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded'}
                     }
                 }
             );
