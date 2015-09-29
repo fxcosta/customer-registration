@@ -2,7 +2,9 @@
 
 namespace Candido\Service;
 
+use Candido\Exceptions\ServiceException;
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Response;
 
 class CustomersService implements ServiceInterface
 {
@@ -11,20 +13,34 @@ class CustomersService implements ServiceInterface
      */
     private $app;
 
+    /**
+     * Construct
+     *
+     * @param Application $app
+     */
     public function __construct(Application $app)
     {
         $this->app = $app;
     }
 
+    /**
+     * ShowAll
+     *
+     * @return mixed
+     */
     public function showAll()
     {
         $data = $this->app['db']->fetchAll('SELECT * FROM persons');
 
         return $data;
-
-
     }
 
+    /**
+     * Show id
+     *
+     * @param $id
+     * @return mixed
+     */
     public function show($id)
     {
         $sql = "SELECT * FROM persons WHERE id = ?";
@@ -33,31 +49,51 @@ class CustomersService implements ServiceInterface
         return $data;
     }
 
+    /**
+     * Create
+     *
+     * @return bool
+     */
     public function create()
     {
-        $this->app['db']->insert('persons',
-            ['name' => $this->app['request']->request->get('name'), 'email' => $this->app['request']->request->get('email')]
-        );
-
-        return true;
+        if (filter_var($this->app['request']->request->get('email'), FILTER_VALIDATE_EMAIL)) {
+            $this->app['db']->insert('persons',
+                ['name' => $this->app['request']->request->get('name'), 'email' => $this->app['request']->request->get('email')]
+            );
+            return true;
+        }
+        return false;
     }
 
+    /**
+     * Update
+     *
+     * @param $id
+     * @return bool
+     */
     public function update($id)
     {
+        if (filter_var($this->app['request']->request->get('email'), FILTER_VALIDATE_EMAIL)) {
         $this->app['db']->update('persons',
-            ['name' => $this->app['request']->request->get('name'), 'email'=> $this->app['request']->request->get('email')],
-            ['id'   => $id]
-        );
-
-        return true;
+            ['name' => $this->app['request']->request->get('name'), 'email' => $this->app['request']->request->get('email')],
+            ['id' => $id]);
+            return true;
+        }
+        return false;
     }
 
+    /**
+     * Delete
+     *
+     * @param $id
+     * @return mixed
+     */
     public function delete($id)
     {
-        $this->app['db']->delete('persons', array(
+        $delete = $this->app['db']->delete('persons', array(
             'id' => $id,
         ));
 
-        return true;
+        return $delete;
     }
 }
