@@ -2,9 +2,7 @@
 
 namespace Candido\Service;
 
-use Candido\Exceptions\ServiceException;
 use Silex\Application;
-use Symfony\Component\HttpFoundation\Response;
 
 class CustomersService implements ServiceInterface
 {
@@ -57,7 +55,7 @@ class CustomersService implements ServiceInterface
     public function create()
     {
         $name = filter_var($this->app['request']->request->get('name'), FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
-        
+
         if (filter_var($this->app['request']->request->get('email'), FILTER_VALIDATE_EMAIL)) {
             $this->app['db']->insert('persons',
                 ['name' => $name, 'email' => $this->app['request']->request->get('email')]

@@ -3,3 +3,4 @@
 /bin/
 composer.lock
 app/config/db.options.php
+/node_modules/
