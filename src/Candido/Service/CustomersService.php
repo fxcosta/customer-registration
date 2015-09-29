@@ -56,11 +56,13 @@ class CustomersService implements ServiceInterface
      */
     public function create()
     {
+        $name = filter_var($this->app['request']->request->get('name'), FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
         if (filter_var($this->app['request']->request->get('email'), FILTER_VALIDATE_EMAIL)) {
             $this->app['db']->insert('persons',
-                ['name' => $this->app['request']->request->get('name'), 'email' => $this->app['request']->request->get('email')]
+                ['name' => $name, 'email' => $this->app['request']->request->get('email')]
             );
             return true;
+
         }
         return false;
     }
@@ -73,10 +75,13 @@ class CustomersService implements ServiceInterface
      */
     public function update($id)
     {
+        $name = filter_var($this->app['request']->request->get('name'), FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+
         if (filter_var($this->app['request']->request->get('email'), FILTER_VALIDATE_EMAIL)) {
-        $this->app['db']->update('persons',
-            ['name' => $this->app['request']->request->get('name'), 'email' => $this->app['request']->request->get('email')],
+            $this->app['db']->update('persons',
+            ['name' => $name, 'email' => $this->app['request']->request->get('email')],
             ['id' => $id]);
+            
             return true;
         }
         return false;
