@@ -1,16 +1,21 @@
 <section ng-init="loadService()">
     <h1>Listagem</h1>
+    <a href="#/novo" title="" class="btn btn-sm btn-success" >+</a>
     <table class="table table-striped">
         <thead>
             <th>ID</th>
             <th>Nome</th>
             <th>Email</th>
+            <th>editar</th>
+            <th>Deletar</th>
         </thead>
         <tbody>
             <tr ng-repeat="register in registers">
                 <td>{{ register.id }}</td>
                 <td>{{ register.name }}</td>
                 <td>{{ register.email }}</td>
+                <td><a href="#/editar/{{ register.id }}" title="" class="btn btn-sm btn-info" >#</a></td>
+                <td><a href="#/" ng-click="delete(register.id)" title="" class="btn btn-sm btn-danger" >-</a></td>
             </tr>
         </tbody>
     </table>

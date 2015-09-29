@@ -32,7 +32,7 @@ class CustomersControllers
         });
 
         // list customers
-        $customersController->get('/api/', function () use ($app) {
+        $customersController->get('/api', function () use ($app) {
 
             if($app['customersService']->showAll())
                 return new JsonResponse($app['customersService']->showAll());
@@ -48,10 +48,10 @@ class CustomersControllers
         });
 
         // insert
-        $customersController->post('/api/', function () use ($app) {
+        $customersController->post('/api', function () use ($app) {
 
             if($app['customersService']->create())
-                return $app->redirect(('/api/'));
+                return $app->json(['success' => true]);
             return new Response('406 Não aceito, verifique os dados', Response::HTTP_NOT_ACCEPTABLE, array('content-type' => 'application/json'));
         });
 
