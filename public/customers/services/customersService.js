@@ -11,6 +11,7 @@
                         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                     }
                 },
+                // Corrigir erro update
                 {
                     update: {
                         method: 'PUT',
