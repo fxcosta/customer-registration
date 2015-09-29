@@ -26,6 +26,11 @@ class CustomersControllers
             return $customersService;
         };
 
+        // Template
+        $customersController->get('/', function () use ($app) {
+            return new Response(file_get_contents('customers/views/template.html'), 200);
+        });
+
         // list customers
         $customersController->get('/api/', function () use ($app) {
 

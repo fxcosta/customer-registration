@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    angular.module('customers', ['ngRoute', 'ngResource'])
+    angular.module('customersApp', ['ngRoute', 'ngResource', 'customersAppCtrl'])
 
         .config(['$routeProvider', function ($routeProvider) {
             $routeProvider
